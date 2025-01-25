@@ -10,6 +10,7 @@
 - [Pré-requis](#pré-requis)
 - [Installation](#installation)
 - [Utilisation](#utilisation)
+- [Fonctionnalités](#fonctionnalités)
 
 
 
@@ -51,6 +52,14 @@ pnpn dlx prisma migrate dev --name init
 ```bash
 pnpm run dev
 ```
+
+
+## Fonctionnalités
+
+Une landing page assez puissante et personnalisable.
+
+Une plateforme d'administration avec des fonctionnalités avancées de gestion des services, des vehicules et des informations de contact.
+
 
 
 
