@@ -19,7 +19,7 @@ type CleanedVehicle = {
   description: string;
   mainImage?: string;
   additionalImages?: string[];
-  characteristics?: Record<string, string>;
+  characteristics?: Record<string, string>[];
 };
 
 // Fonction pour uploader un fichier sur Supabase et récupérer l'URL publique

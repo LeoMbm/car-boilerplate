@@ -1,28 +1,57 @@
-// TODO
-
-RECHECK SI TOUT EST BON.
-
-ADD/UPDATE/DELETE VEHICLE SERVICE (STORE, and reconfigure componentns)
 
 
-Done:
-
-Add vehicle (almost done because i have to manage the caracteristic)
 
 
-// TODO 24 /01
-Start Add/Delete/Update Services
-
-DONE: ADD/DELETE SERVICE
-IF You want to update a service, create a new one
-
-Add storage for pictures
-
-Finish Update Vehicle // DONE
+# Refonte du site web de LM Motors
 
 
-// TODO 25/01
+## Table des matières
 
-FIX ADD VEHICLE CHARACTERISTIC (JSON) Quand j'envoi un json vide j'ai {} 01
+- [Pré-requis](#pré-requis)
+- [Installation](#installation)
+- [Utilisation](#utilisation)
 
-CREATE MODEL FOR CARACHTERISITICS
+
+
+### Pré-requis
+
+- Node.js 22
+- Supabase
+  - Base de données PostgreSQL
+    - [Supabase PostgreSQL](https://supabase.com/docs/guides/database/postgres)
+  - Storage de fichiers
+    - [Supabase Storage](https://supabase.com/docs/guides/storage/storage)
+    - Créer un bucket avec le nom `assets` et le type `public`
+
+### Installation
+
+
+
+Remplissez les variables d'environnement dans le fichier `.env` et installez les packages avec la commande suivante : 
+
+```env
+AUTH_SECRET="xxxxxxxxxxxxxx"
+DATABASE_PASSWORD="xxxxxxxxxxx"
+AUTH_TRUST_HOST=http://localhost:3000
+SERVICE_ROLE_KEY="xxxxxxxxxxxxxxxxxxxxx"
+SUPABASE_URL="https://xxxxxxxxxxxx.supabase.co"
+DATABASE_URL="postgresql://xxxxxxxxx:xxxxxx@axxxxx.xxxx.supabase.com:5432/xxxxx"
+DIRECT_URL="postgresql://xxxxxxxxx:xxxxxx@axxxxx.xxxx.supabase.com:5432/xxxxx"
+ANON_PUBLIC_KEY="XXXXXXXXXXXXXXX"
+```
+
+```bash
+pnpm install
+pnpn dlx prisma migrate dev --name init
+```
+
+
+## Utilisation
+
+```bash
+pnpm run dev
+```
+
+
+
+> TODO:  CREATE MODEL FOR CARACHTERISITICS
