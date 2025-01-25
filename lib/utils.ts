@@ -33,8 +33,6 @@ export function getChangedFields(
       const originalObj = original[key] || {};
       const updatedObj = updated[key];
 
-      console.log("[UTILS]", originalObj, updatedObj);
-
       const mergedObj = {
         ...originalObj,
         ...updatedObj,
@@ -66,7 +64,6 @@ type WeekHours = Record<string, DayHours>;
 
 export function formatOpeningHours(hours: WeekHours): string {
   // hours = JSON.parse(JSON.stringify(hours));
-  console.log("[UTILS]", hours);
 
   if (!hours) {
     return "Heures non disponibles";

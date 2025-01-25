@@ -180,6 +180,7 @@ export default function CatalogueClient() {
                   <motion.div key={vehicle.id} variants={fadeIn}>
                     <Card className="overflow-hidden">
                       <Image
+                        priority={true}
                         src={vehicle.mainImage || "/img/placeholder.svg"}
                         alt={vehicle.name}
                         width={300}
