@@ -19,12 +19,13 @@ import {
 import { CheckIcon } from "@heroicons/react/20/solid";
 
 export const IconPickerCommandPalette = ({
-  onChange,
+  value, // Valeur actuelle de l'icône sélectionnée
+  onChange, // Fonction à appeler lorsque l'icône est changée
 }: {
-  onChange: (icon: string) => void;
+  value: string; // Nom de l'icône sélectionnée
+  onChange: (icon: string) => void; // Callback pour changer l'icône
 }) => {
   // 'value' représente le nom de l'icône sélectionnée dans la palette
-  const [value, setValue] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const { icons } = useIconPicker();
 
@@ -35,6 +36,7 @@ export const IconPickerCommandPalette = ({
           {value ? (
             <>
               <IconRenderer icon={value} className="h-4 w-4 mr-2" />
+              {value}
             </>
           ) : (
             "Sélectionner"
@@ -52,11 +54,8 @@ export const IconPickerCommandPalette = ({
                   key={name}
                   value={friendlyName}
                   onSelect={() => {
-                    // Si l'icône sélectionnée est déjà celle-ci, on la désélectionne ; sinon, on la sélectionne
-                    const newValue = value === name ? null : name;
-                    setValue(newValue);
-                    onChange(newValue ?? "");
-                    setOpen(false);
+                    onChange(name); // Informer le parent de la nouvelle icône
+                    setOpen(false); // Fermer le popover
                   }}
                   className={`flex items-center gap-x-2 truncate capitalize ${
                     value === name ? "bg-blue-100" : ""

@@ -12,7 +12,7 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
-  console.log("[MIDDLEWARE]", nextUrl.pathname);
+  // console.log("[MIDDLEWARE]", nextUrl.pathname);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiPrefixRoutes);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);

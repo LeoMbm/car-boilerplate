@@ -19,7 +19,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Filter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -33,7 +33,7 @@ export default function CatalogueClient() {
   const [filters, setFilters] = useState({
     brand: "",
     minPrice: 0,
-    maxPrice: 20000,
+    maxPrice: 100000,
     minYear: 1990,
     maxYear: 2025,
   });
@@ -45,17 +45,25 @@ export default function CatalogueClient() {
 
   const applyFilters = () => {
     const filtered = vehicles.filter((vehicle) => {
-      return (
-        (!filters.brand ||
-          vehicle.brand.toLowerCase().includes(filters.brand.toLowerCase())) &&
-        vehicle.price >= filters.minPrice &&
-        vehicle.price <= filters.maxPrice &&
-        vehicle.year >= filters.minYear &&
-        vehicle.year <= filters.maxYear
-      );
+      const searchTerm = filters.brand.toLowerCase().trim();
+      const matchesBrand =
+        !searchTerm || vehicle.brand.toLowerCase() === searchTerm;
+
+      const matchesPrice =
+        vehicle.price >= filters.minPrice && vehicle.price <= filters.maxPrice;
+
+      const matchesYear =
+        vehicle.year >= filters.minYear && vehicle.year <= filters.maxYear;
+
+      return matchesBrand && matchesPrice && matchesYear;
     });
+
     setFilteredVehicles(filtered);
   };
+
+  useEffect(() => {
+    setFilteredVehicles(vehicles);
+  }, [vehicles]);
 
   return (
     <motion.div
@@ -136,7 +144,10 @@ export default function CatalogueClient() {
                   <span>{filters.maxYear}</span>
                 </div>
               </div>
-              <Button onClick={applyFilters} className="w-full">
+              <Button
+                onClick={applyFilters}
+                className="w-full bg-green-800 hover:bg-green-900 dark:bg-green-400 dark:hover:bg-green-500"
+              >
                 <Filter className="mr-2 h-4 w-4" />
                 Appliquer les filtres
               </Button>
@@ -202,7 +213,10 @@ export default function CatalogueClient() {
                         </p>
                       </CardContent>
                       <CardFooter>
-                        <Button asChild className="w-full">
+                        <Button
+                          asChild
+                          className="w-full bg-green-800 hover:bg-green-900 dark:bg-green-400 dark:hover:bg-green-500"
+                        >
                           <Link href={`/catalogue/${vehicle.id}`}>
                             Voir les détails
                             <ArrowRight className="ml-2 h-4 w-4" />

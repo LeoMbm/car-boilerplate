@@ -101,7 +101,11 @@ export default function HomeClient() {
               className="flex flex-col gap-2 sm:flex-row"
               variants={fadeIn}
             >
-              <Button asChild size="lg" className="w-full sm:w-auto">
+              <Button
+                asChild
+                size="lg"
+                className="w-full sm:w-auto bg-green-800 hover:bg-green-900 dark:bg-green-400 dark:hover:bg-green-500 "
+              >
                 <Link href="/catalogue">
                   Découvrir notre catalogue
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -169,7 +173,16 @@ export default function HomeClient() {
                     Icons[service.icon as keyof typeof Icons] ||
                     Icons.HelpCircle;
                   return (
-                    <motion.div key={index} variants={fadeIn}>
+                    <motion.div
+                      key={index}
+                      variants={fadeIn}
+                      className={`${
+                        featuredServices.length % 2 !== 0 &&
+                        index === featuredServices.length - 1
+                          ? "sm:col-span-2 sm:w-1/2 sm:mx-auto lg:col-span-1 lg:w-full"
+                          : ""
+                      }`}
+                    >
                       <Card className="h-full">
                         <CardHeader>
                           <Icon className="w-10 h-10 mb-2 text-primary" />
@@ -209,7 +222,7 @@ export default function HomeClient() {
                 .map((_, index) => (
                   <motion.div key={index} variants={fadeIn}>
                     <Card className="h-full flex flex-col">
-                      <ImageSkeleton />
+                      <Skeleton className="h-48 w-full" />
                       <CardHeader>
                         <div className="flex justify-between items-start">
                           <div>
@@ -236,8 +249,17 @@ export default function HomeClient() {
                     </Card>
                   </motion.div>
                 ))
-            : featuredVehicles.map((vehicle) => (
-                <motion.div key={vehicle.id} variants={fadeIn}>
+            : featuredVehicles.map((vehicle, index) => (
+                <motion.div
+                  key={vehicle.id}
+                  variants={fadeIn}
+                  className={`${
+                    featuredVehicles.length % 2 !== 0 &&
+                    index === featuredVehicles.length - 1
+                      ? "sm:col-span-2 sm:w-1/2 sm:mx-auto lg:col-span-1 lg:w-full"
+                      : ""
+                  }`}
+                >
                   <Card className="h-full flex flex-col">
                     <Image
                       priority={true}
@@ -253,24 +275,19 @@ export default function HomeClient() {
                           <CardTitle>{vehicle.name}</CardTitle>
                           <CardDescription>{vehicle.brand}</CardDescription>
                         </div>
-                        <Badge>Nouveau</Badge>
+                        <Badge> {vehicle.year}</Badge>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <p className="text-2xl font-bold">
                         {vehicle.price.toLocaleString()} €
                       </p>
-                      <div className="flex items-center mt-2">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-primary" />
-                        ))}
-                        <span className="ml-2 text-sm text-muted-foreground">
-                          (12 avis)
-                        </span>
-                      </div>
                     </CardContent>
                     <CardFooter>
-                      <Button asChild className="w-full">
+                      <Button
+                        asChild
+                        className="w-full bg-green-800 hover:bg-green-900 dark:bg-green-400 dark:hover:bg-green-500"
+                      >
                         <Link href={`/catalogue/${vehicle.id}`}>
                           Voir les détails
                           <ArrowRight className="ml-2 h-4 w-4" />
@@ -298,7 +315,11 @@ export default function HomeClient() {
             Explorez notre catalogue complet et trouvez le véhicule de vos
             rêves.
           </p>
-          <Button asChild size="lg">
+          <Button
+            asChild
+            size="lg"
+            className="bg-green-800 hover:bg-green-900 dark:bg-green-400 dark:hover:bg-green-500"
+          >
             <Link href="/catalogue">
               Voir tout le catalogue
               <ArrowRight className="ml-2 h-4 w-4" />

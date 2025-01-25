@@ -24,3 +24,5 @@ Finish Update Vehicle // DONE
 // TODO 25/01
 
 FIX ADD VEHICLE CHARACTERISTIC (JSON) Quand j'envoi un json vide j'ai {} 01
+
+CREATE MODEL FOR CARACHTERISITICS

@@ -1,6 +1,5 @@
 "use client";
 
-import { JSX, useState } from "react";
 import {
   Card,
   CardContent,
@@ -15,22 +14,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { JSX, useState } from "react";
 import {
   Bar,
   BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
   Pie,
   PieChart,
-  Cell,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
+import {
+  ArrowBigRightDash,
+  Link,
+  Mail,
+  Search,
+  Share,
+  Terminal,
+  Handshake,
+} from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
-import { Search, ArrowBigRightDash, Share, Link, Mail } from "lucide-react";
 
 interface AnalyticsData {
   pageViews: { month: string; views: number; [key: string]: any }[];
@@ -150,6 +159,13 @@ export function AnalyticsSettings() {
 
   return (
     <div className="space-y-6">
+      <Alert>
+        <Handshake className="h-4 w-4" />
+        <AlertTitle>Fonctionnalité avancée !</AlertTitle>
+        <AlertDescription>
+          Cette fonctionnalité est implementée sur demande, en voici une démo.
+        </AlertDescription>
+      </Alert>
       <div className="flex justify-between items-center">
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger className="w-[180px]">
@@ -161,6 +177,7 @@ export function AnalyticsSettings() {
             <SelectItem value="90d">90 derniers jours</SelectItem>
           </SelectContent>
         </Select>
+
         <Select
           value={selectedCountry || "all"}
           onValueChange={(value) =>

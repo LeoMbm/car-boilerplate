@@ -6,15 +6,9 @@ import { revalidatePath } from "next/cache";
 export async function POST(request: Request) {
   const newSettings = await request.json();
 
-  console.log("New settings:", newSettings);
+  // console.log("New settings:", newSettings);
 
-  // Update in database
   await updateSiteSettingsDB(newSettings);
-
-  // Update in Vercel KV
-  // await updateSettingsInKV(newSettings);
-
-  // Trigger revalidation
   revalidatePath("/");
 
   return NextResponse.json({

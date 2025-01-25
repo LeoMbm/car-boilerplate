@@ -96,7 +96,6 @@ export default function VehicleDetailsClient({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
     toast({
       title: "Demande envoyée",
       description:
@@ -120,9 +119,13 @@ export default function VehicleDetailsClient({
 
     return () => {};
   }, [id, vehicles]);
-  console.log(characteristicsArray);
 
   if (!vehicleData) return <Loading />;
+
+  const combinedImages = [
+    vehicleData.mainImage,
+    ...(vehicleData.additionalImages || []),
+  ].filter(Boolean);
 
   return (
     <>
@@ -142,28 +145,24 @@ export default function VehicleDetailsClient({
               <CardContent className="p-0">
                 <Image
                   priority={true}
-                  src={vehicleData.mainImage || "/img/placeholder.svg"}
+                  src={combinedImages[activeImage] || "/img/placeholder.svg"}
                   alt={vehicleData.name}
                   width={600}
                   height={400}
                   className="w-full object-cover rounded-t-lg"
                 />
                 <div className="flex justify-center mt-4 space-x-2 p-4">
-                  {vehicleData.additionalImages &&
-                  vehicleData.additionalImages?.length > 1
-                    ? vehicleData.additionalImages.map((_, index) => (
-                        <Button
-                          key={index}
-                          variant={
-                            index === activeImage ? "default" : "outline"
-                          }
-                          size="sm"
-                          onClick={() => setActiveImage(index)}
-                        >
-                          {index + 1}
-                        </Button>
-                      ))
-                    : null}
+                  {combinedImages.length > 1 &&
+                    combinedImages.map((_, index) => (
+                      <Button
+                        key={index}
+                        variant={index === activeImage ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setActiveImage(index)}
+                      >
+                        {index + 1}
+                      </Button>
+                    ))}
                 </div>
               </CardContent>
             </Card>
@@ -305,7 +304,12 @@ export default function VehicleDetailsClient({
                     required
                   />
                 </div>
-                <Button type="submit">Envoyer la demande</Button>
+                <Button
+                  type="submit"
+                  className="bg-green-800 hover:bg-green-900 dark:bg-green-400 dark:hover:bg-green-500"
+                >
+                  Envoyer la demande
+                </Button>
               </form>
             </CardContent>
           </Card>

@@ -51,8 +51,6 @@ export function ServicesSettings() {
     setNewService({ icon: "", title: "", description: "", details: [] });
   };
 
-  console.log(services);
-
   const removeServiceConfirm = (index: number) => {
     setConfirmDialog({
       isOpen: true,
@@ -135,6 +133,7 @@ export function ServicesSettings() {
             <div className="space-y-2">
               <Label htmlFor="newServiceIcon">Icône</Label>
               <IconPickerCommandPalette
+                value={newService.icon}
                 onChange={(icon) => handleNewServiceChange("icon", icon)}
               />
             </div>

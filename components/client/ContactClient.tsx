@@ -128,7 +128,12 @@ export default function ContactClient() {
                     required
                   />
                 </div>
-                <Button type="submit">Envoyer le message</Button>
+                <Button
+                  type="submit"
+                  className="bg-green-800 hover:bg-green-900 dark:bg-green-400 dark:hover:bg-green-500"
+                >
+                  Envoyer le message
+                </Button>
               </form>
             </CardContent>
           </Card>
@@ -140,37 +145,47 @@ export default function ContactClient() {
               <CardTitle>Nos coordonnées</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-5 h-5 text-primary" />
-                <span>{siteSettings.contactInfo.address}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="w-5 h-5 text-primary" />
-                <span>{siteSettings.contactInfo.phone}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Mail className="w-5 h-5 text-primary" />
-                <span>{siteSettings.contactInfo.email}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Clock className="w-5 h-5 text-primary" />
-                <span className="whitespace-pre-line">
-                  {formatOpeningHours(siteSettings.contactInfo.hours)}
-                </span>
-              </div>
+              {siteSettings.contactInfo.address && (
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-5 h-5 text-primary" />
+                  <span>{siteSettings.contactInfo.address}</span>
+                </div>
+              )}
+              {siteSettings.contactInfo.phone && (
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-5 h-5 text-primary" />
+                  <span>{siteSettings.contactInfo.phone}</span>
+                </div>
+              )}
+              {siteSettings.contactInfo.email && (
+                <div className="flex items-center space-x-2">
+                  <Mail className="w-5 h-5 text-primary" />
+                  <span>{siteSettings.contactInfo.email}</span>
+                </div>
+              )}
+              {siteSettings.contactInfo.hours && (
+                <div className="flex items-center space-x-2">
+                  <Clock className="w-5 h-5 text-primary" />
+                  <span className="whitespace-pre-line">
+                    {formatOpeningHours(siteSettings.contactInfo.hours)}
+                  </span>
+                </div>
+              )}
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Notre emplacement</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="h-[300px] rounded-lg overflow-hidden">
-                <Map />
-              </div>
-            </CardContent>
-          </Card>
+          {siteSettings.contactInfo.address ? (
+            <Card>
+              <CardHeader>
+                <CardTitle>Notre emplacement</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="h-[300px] rounded-lg overflow-hidden">
+                  <Map />
+                </div>
+              </CardContent>
+            </Card>
+          ) : null}
         </motion.div>
       </div>
     </motion.div>

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createService } from "@/lib/db";
-// import { updateSettingsInKV } from "@/lib/kv";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 
@@ -30,7 +29,7 @@ export async function POST(request: Request) {
     delete data.id;
   }
 
-  console.log(data);
+  // console.log(data);
 
   try {
     const result = await createService(data);
@@ -49,9 +48,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-
-  // Récupérer et valider les données
-
-  // Trigger revalidation
-  // revalidatePath("/catalogue");
 }

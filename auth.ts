@@ -43,47 +43,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.error("[SIGN IN ERROR] Missing user or account data.");
         return false;
       }
-      if (account.provider === "google" && user.email) {
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email },
-        });
-
-        if (existingUser) {
-          console.log("[USER EXISTS]");
-
-          if (!existingUser.emailVerified) {
-            console.log("[VERIFYING EMAIL]", user.email);
-            await prisma.user.update({
-              where: { email: user.email },
-              data: { emailVerified: new Date() },
-            });
-          }
-
-          // if (!existingUser.isProfileComplete && user.name) {
-          //   console.log("[UPDATING USER WTF]");
-
-          //   await prisma.user.update({
-          //     where: { email: user.email },
-          //     data: { isProfileComplete: true },
-          //   });
-          // }
-
-          return true;
-        }
-
-        // else {
-        //   console.log("[CREATING NEW USER]", user.email);
-        //   await prisma.user.create({
-        //     data: {
-        //       email: user.email,
-        //       name: user.name || null,
-        //       image: user.image || null,
-        //       isProfileComplete: true,
-        //     },
-        //   });
-        //   return true;
-        // }
-      }
 
       if (account?.provider === "nodemailer" && account.providerAccountId) {
         console.log("[PROVIDER]", account.provider);

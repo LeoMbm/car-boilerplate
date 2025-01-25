@@ -18,6 +18,7 @@ import { LivePreview } from "@/components/admin/LivePreview";
 import Select from "react-select";
 import { useToast } from "@/hooks/use-toast";
 import { getChangedFields } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 export function HomePageSettings() {
   const { siteSettings, updateSiteSettings, services, vehicles } =
@@ -28,6 +29,7 @@ export function HomePageSettings() {
     featuredServices: "",
     featuredVehicles: "",
   });
+  const { theme } = useTheme();
 
   useEffect(() => {
     setLocalSettings(siteSettings);
@@ -41,25 +43,25 @@ export function HomePageSettings() {
     let isValid = true;
     const newErrors = { featuredServices: "", featuredVehicles: "" };
 
-    if (localSettings.featuredServices.length !== 3) {
-      newErrors.featuredServices =
-        "Vous devez sélectionner exactement 3 services.";
-      isValid = false;
+    if (localSettings.featuredServices) {
+      if (localSettings.featuredServices.length !== 3) {
+        newErrors.featuredServices =
+          "Vous devez sélectionner exactement 3 services.";
+        isValid = false;
+      }
     }
 
-    if (localSettings.featuredVehicles.length > 5) {
-      newErrors.featuredVehicles =
-        "Vous pouvez sélectionner au maximum 5 véhicules.";
-      isValid = false;
+    if (localSettings.featuredVehicles) {
+      if (localSettings.featuredVehicles.length > 5) {
+        newErrors.featuredVehicles =
+          "Vous pouvez sélectionner au maximum 5 véhicules.";
+        isValid = false;
+      }
     }
 
     setErrors(newErrors);
     return isValid;
   };
-
-  // const saveSiteSettings = () => {
-
-  // };
 
   const saveSiteSettings = async () => {
     if (!siteSettings) {
@@ -71,7 +73,6 @@ export function HomePageSettings() {
       return;
     }
     if (validateSettings()) {
-      // updateSiteSettings(localSettings);
       const changes = getChangedFields(siteSettings, localSettings);
 
       if (Object.keys(changes).length === 0) {
@@ -84,7 +85,6 @@ export function HomePageSettings() {
 
       try {
         updateSiteSettings(changes);
-        console.log("Local settings updated:", changes);
 
         toast({
           title: "Paramètres sauvegardés",
@@ -151,6 +151,35 @@ export function HomePageSettings() {
           <div className="space-y-2">
             <Label>Services en vedette</Label>
             <Select
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: theme === "dark" ? "#09090b" : "#ffffff",
+                  color: theme === "dark" ? "white" : "black",
+                  borderColor: "grey",
+                }),
+                multiValue: (baseStyles, state) => {
+                  return {
+                    ...baseStyles,
+                    // backgroundColor: "#09090b",
+                  };
+                },
+                menuList: (baseStyles, state) => {
+                  return {
+                    ...baseStyles,
+                    backgroundColor: theme === "dark" ? "#09090b" : "#ffffff",
+                  };
+                },
+                option: (base, props) => {
+                  return {
+                    ...base,
+                    ":hover": {
+                      backgroundColor: "#a3a3a3",
+                    },
+                    color: theme === "dark" ? "white" : "black",
+                  };
+                },
+              }}
               isMulti
               options={serviceOptions}
               value={serviceOptions.filter((option) =>
@@ -176,6 +205,36 @@ export function HomePageSettings() {
           <div className="space-y-2">
             <Label>Véhicules en vedette</Label>
             <Select
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: theme === "dark" ? "#09090b" : "#ffffff",
+                  color: theme === "dark" ? "white" : "black",
+                  borderColor: "grey",
+                }),
+                multiValue: (baseStyles, state) => {
+                  return {
+                    ...baseStyles,
+                    // backgroundColor: "#09090b",
+                  };
+                },
+                menuList: (baseStyles, state) => {
+                  return {
+                    ...baseStyles,
+                    backgroundColor: theme === "dark" ? "#09090b" : "#ffffff",
+                  };
+                },
+
+                option: (base, props) => {
+                  return {
+                    ...base,
+                    ":hover": {
+                      backgroundColor: "#a3a3a3",
+                    },
+                    color: theme === "dark" ? "white" : "black",
+                  };
+                },
+              }}
               isMulti
               options={vehicleOptions}
               value={vehicleOptions.filter((option) =>

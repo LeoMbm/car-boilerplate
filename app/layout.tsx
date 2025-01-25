@@ -55,6 +55,13 @@ export default async function RootLayout({
     getServices(),
     getVehicles(),
   ]);
+  const vehiclesWithParsedCharacteristics = vehicles.map((vehicle: any) => ({
+    ...vehicle,
+    characteristics:
+      typeof vehicle.characteristics === "string"
+        ? JSON.parse(vehicle.characteristics)
+        : vehicle.characteristics,
+  }));
 
   return (
     <Providers session={session}>
@@ -67,7 +74,7 @@ export default async function RootLayout({
             <DataLoader
               siteSettings={siteSettings}
               services={services}
-              vehicles={vehicles}
+              vehicles={vehiclesWithParsedCharacteristics}
             >
               <ThemeProvider
                 attribute="class"

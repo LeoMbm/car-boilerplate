@@ -40,9 +40,20 @@ export default function HeaderClient() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex min-w-[200px]">
+    <header
+      className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm"
+      style={{
+        "--navbar-height": `max(3.5rem, ${
+          (siteSettings.logoSize || 25) + 20
+        }px)`,
+        height: "var(--navbar-height)",
+      }}
+    >
+      <div
+        className="container flex items-center"
+        style={{ height: "var(--navbar-height)" }}
+      >
+        <div className="mr-4 hidden md:flex min-w-[200px] items-center">
           <Link
             href="/"
             className={`mr-6 flex items-center space-x-2 ${
@@ -50,16 +61,20 @@ export default function HeaderClient() {
             }`}
           >
             {siteSettings.showLogo && siteSettings.logo && (
-              <img
-                src={siteSettings.logo || "/img/placeholder.svg"}
-                alt={siteSettings.title}
-                className="h-auto"
-                // width={ width: `${siteSettings.logoSize || 25}px` }
-                style={{
-                  width: `${siteSettings.logoSize || 25}px`,
-                  objectFit: "contain",
-                }}
-              />
+              <div
+                className="flex items-center justify-center"
+                style={{ height: "var(--navbar-height)" }}
+              >
+                <img
+                  src={siteSettings.logo || "/img/placeholder.svg"}
+                  alt={siteSettings.title}
+                  className="h-auto max-h-full w-auto"
+                  style={{
+                    maxWidth: `${siteSettings.logoSize || 25}px`,
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
             )}
             {(siteSettings.showTitle || !siteSettings.showLogo) && (
               <span className="hidden font-bold sm:inline-block">

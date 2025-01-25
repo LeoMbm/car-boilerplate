@@ -58,7 +58,6 @@ export function ContactSettings() {
 
     try {
       updateSiteSettings(changes);
-      console.log("Local settings updated:", changes);
 
       toast({
         title: "Paramètres sauvegardés",

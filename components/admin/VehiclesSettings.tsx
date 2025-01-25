@@ -28,7 +28,6 @@ import { Search, Star, Trash2, Upload } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ModifyVehicleModal } from "./modal/ModifyVehicleModal";
-import { supabase } from "@/lib/supabaseClient";
 
 const characteristicOptions = [
   { key: "mileage", label: "Kilométrage", type: "number", unit: "km" },
@@ -84,15 +83,6 @@ export function VehiclesSettings() {
   );
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  useEffect(() => {
-    // Simuler un chargement
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const handleNewVehicleChange = (key: string, value: string | object) => {
     setNewVehicle((prev) => ({ ...prev, [key]: value }));
   };
@@ -145,22 +135,15 @@ export function VehiclesSettings() {
         JSON.stringify(newVehicle.characteristics)
       );
 
-      // Ajouter l'image principale si disponible
       if (selectedFiles[0]) {
         formData.append("mainImage", selectedFiles[0]);
       }
 
-      // Ajouter les images additionnelles
       selectedFiles.slice(1).forEach((file) => {
         formData.append("additionalImages", file);
       });
 
-      for (let pair of formData.entries()) {
-        console.log(`${pair[0]}:`, pair[1]);
-      }
-
       const response = await fetch("/api/vehicle/add", {
-        // Assurez-vous que le chemin est correct
         method: "POST",
         body: formData,
       });
@@ -169,7 +152,7 @@ export function VehiclesSettings() {
         throw new Error("Erreur lors de l'ajout du véhicule.");
       }
 
-      const result = await response.json();
+      // const result = await response.json();
 
       toast({
         title: "Véhicule ajouté",
@@ -178,7 +161,6 @@ export function VehiclesSettings() {
         duration: 5000,
       });
 
-      // Réinitialiser le formulaire
       setNewVehicle({
         name: "",
         brand: "",
@@ -267,21 +249,6 @@ export function VehiclesSettings() {
       vehicle.brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = event.target.files;
-  //   if (files) {
-  //     const newImages = Array.from(files)
-  //       .slice(0, 10)
-  //       .map((file) => URL.createObjectURL(file));
-  //     setNewVehicle((prev) => ({
-  //       ...prev,
-  //       additionalImages: [...prev.additionalImages, ...newImages].slice(0, 10),
-  //       mainImage: prev.mainImage || newImages[0],
-  //     }));
-  //   }
-  // };
-  // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
   const handleImageSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     console.log(files);
@@ -332,7 +299,7 @@ export function VehiclesSettings() {
     }
   };
   useEffect(() => {
-    // No cleanup needed for Supabase URLs
+    setIsLoading(false);
   }, [newVehicle.additionalImages]);
 
   return (

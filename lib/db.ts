@@ -71,7 +71,7 @@ type CleanedVehicle = {
   description: string;
   mainImage?: string;
   additionalImages?: string[];
-  characteristics?: { name: string; value: string }[];
+  characteristics?: Record<string, string>[];
 };
 export async function createVehicle(data: CleanedVehicle) {
   log("[DATABASE] Creating vehicle...");
@@ -86,8 +86,18 @@ export async function createVehicle(data: CleanedVehicle) {
       mainImage: data.mainImage,
       additionalImages: additionalImages,
       characteristics: data.characteristics
-        ? JSON.stringify(data.characteristics)
-        : [],
+        ? JSON.stringify(data.characteristics) // Convertir en JSON
+        : JSON.stringify([
+            {
+              mileage: 0,
+            },
+            { transmission: "N/A" },
+            { fuelType: "N/A" },
+            { color: "N/A" },
+            { doors: 0 },
+            { horsepower: 0 },
+            { options: "N/A" },
+          ]),
     },
   });
 }

@@ -27,16 +27,8 @@ export function MetadataSettings() {
 
   useEffect(() => {
     setLocalMetadata(siteSettings.metadata);
+    setIsLoading(false);
   }, [siteSettings.metadata]);
-
-  useEffect(() => {
-    // Simuler un chargement
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleMetadataChange = (key: string, value: string) => {
     setLocalMetadata((prev) => ({ ...prev, [key]: value }));
@@ -72,7 +64,6 @@ export function MetadataSettings() {
 
     try {
       updateSiteSettings({ metadata: changes });
-      console.log("Local settings updated:", { metadata: changes });
 
       toast({
         title: "Paramètres sauvegardés",

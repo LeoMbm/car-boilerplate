@@ -22,8 +22,9 @@ import { Slider } from "@/components/ui/slider";
 import Image from "next/image";
 import { ColorTemplateSelector } from "./ColorTemplateSelector";
 import { getChangedFields } from "@/lib/utils";
-import { SiteSettings } from "@/lib/db";
+import type { SiteSettings } from "@/lib/db";
 import Loading from "../LoaderComp";
+import { LogoUploadModal } from "@/components/admin/modal/LogoUploadModal";
 
 export function GeneralSettings() {
   const { siteSettings, updateSiteSettings, generalLoading } = useAppStore();
@@ -33,10 +34,15 @@ export function GeneralSettings() {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [logoSize, setLogoSize] = useState(25);
+  const [isLogoModalOpen, setIsLogoModalOpen] = useState(false);
 
-  // useEffect(() => {
-  //   // Simuler un chargement
-  // }, []);
+  useEffect(() => {
+    if (siteSettings && Object.keys(siteSettings).length > 1) {
+      setLocalSettings(siteSettings);
+      setLogoSize(siteSettings.logoSize || 25);
+      setIsLoading(false);
+    }
+  }, [siteSettings]);
 
   const handleSiteSettingsChange = (key: string, value: any) => {
     setLocalSettings((prev) => ({ ...prev, [key]: value }));
@@ -49,25 +55,6 @@ export function GeneralSettings() {
     setLogoSize(value[0]);
     handleSiteSettingsChange("logoSize", value[0]);
   };
-
-  if (!siteSettings) {
-    return <Loading />;
-  }
-  useEffect(() => {
-    if (siteSettings && Object.keys(siteSettings).length > 1) {
-      setLocalSettings(siteSettings);
-      setLogoSize(siteSettings.logoSize || 25);
-      setIsLoading(false);
-    }
-  }, [siteSettings]);
-
-  // const saveSiteSettings = () => {
-  //   updateSiteSettings(localSettings);
-  //   toast({
-  //     title: "Paramètres sauvegardés",
-  //     description: "Les paramètres du site ont été mis à jour avec succès.",
-  //   });
-  // };
 
   const saveSiteSettings = async () => {
     if (!siteSettings) {
@@ -91,7 +78,6 @@ export function GeneralSettings() {
 
     try {
       updateSiteSettings(changes);
-      console.log("Local settings updated:", changes);
 
       toast({
         title: "Paramètres sauvegardés",
@@ -107,10 +93,14 @@ export function GeneralSettings() {
     }
   };
 
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
-  console.log(siteSettings);
+  const handleLogoUpload = (logoUrl: string) => {
+    handleSiteSettingsChange("logo", logoUrl);
+    setIsLogoModalOpen(false);
+  };
+
+  if (!siteSettings) {
+    return <Loading />;
+  }
 
   return (
     <Card>
@@ -164,7 +154,11 @@ export function GeneralSettings() {
                 placeholder="URL du logo"
               />
             )}
-            <Button variant="outline" disabled={isLoading}>
+            <Button
+              variant="outline"
+              disabled={isLoading}
+              onClick={() => setIsLogoModalOpen(true)}
+            >
               <Upload className="w-4 h-4 mr-2" />
               Télécharger
             </Button>
@@ -255,8 +249,6 @@ export function GeneralSettings() {
               </div>
             ))
           )}
-          {/* Maybe in V@ */}
-          {/* <ColorTemplateSelector /> */}
         </div>
       </CardContent>
       <CardFooter>
@@ -264,6 +256,11 @@ export function GeneralSettings() {
           {isLoading ? "Chargement..." : "Enregistrer les paramètres"}
         </Button>
       </CardFooter>
+      <LogoUploadModal
+        isOpen={isLogoModalOpen}
+        onClose={() => setIsLogoModalOpen(false)}
+        onUpload={handleLogoUpload}
+      />
     </Card>
   );
 }
